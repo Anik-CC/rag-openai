@@ -1,0 +1,35 @@
+# ── Credentials & secrets ──────────────────────────────────────────────────────
+.env
+*.pem
+*.key
+
+# ── AWS ────────────────────────────────────────────────────────────────────────
+.aws/
+
+# ── Python ─────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+.Python
+
+# ── App-generated data (potentially sensitive) ─────────────────────────────────
+uploaded_pdfs/*
+!uploaded_pdfs/.gitkeep
+saved_urls.json
+*.log
+
+# ── PDF documents (HR / policy files — do not expose) ─────────────────────────
+*.pdf
+
+# ── IDE & OS ───────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
