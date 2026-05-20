@@ -343,13 +343,9 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuration")
     st.markdown("---")
 
-    env_key = os.environ.get("OPENROUTER_API_KEY", "") or st.secrets.get("OPENROUTER_API_KEY", "")
-    api_key_input = st.text_input(
-        "OpenRouter API Key", value=env_key, type="password",
-        placeholder="sk-or-v1-...", help="Get a free key at openrouter.ai",
-    )
+    api_key_input = os.environ.get("OPENROUTER_API_KEY", "") or st.secrets.get("OPENROUTER_API_KEY", "")
     if api_key_input:
-        st.success("API key ready ✓")
+        st.caption("🔑 API key loaded ✓")
 
     st.markdown("---")
     st.markdown("##### 📂 Knowledge Base")
