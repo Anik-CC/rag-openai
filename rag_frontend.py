@@ -101,6 +101,14 @@ section[data-testid="stSidebar"] .stTabs [aria-selected="true"] {
     box-shadow: 0 6px 20px rgba(102,126,234,0.5) !important;
 }
 .stButton > button[kind="primary"]:active { transform: translateY(0) !important; }
+.stButton > button[kind="primary"]:disabled,
+.stButton > button[kind="primary"][disabled] {
+    opacity: 0.38 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+    filter: grayscale(30%) !important;
+}
 .stButton > button:not([kind="primary"]) {
     background: rgba(255,255,255,0.06) !important;
     border: 1px solid rgba(255,255,255,0.12) !important;
@@ -631,7 +639,7 @@ question = st.text_area(
 col_ask, col_hint = st.columns([1, 4])
 ask_button = col_ask.button(
     "Ask ➜", type="primary",
-    disabled=not api_key_input or not selected_source,
+    disabled=not selected_source,
     use_container_width=True,
 )
 col_hint.markdown(
@@ -641,7 +649,9 @@ col_hint.markdown(
     unsafe_allow_html=True,
 )
 
-if ask_button and question.strip():
+if ask_button and not api_key_input:
+    st.warning("Enter your OpenRouter API key in the Settings panel (⚙️) to ask questions.")
+elif ask_button and question.strip():
     with st.spinner(f"Thinking…"):
         try:
             answer = backend.hr_rag_response(
