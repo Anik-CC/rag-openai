@@ -168,6 +168,32 @@ hr { border-color: rgba(255,255,255,0.08) !important; margin: 12px 0 !important;
 ::-webkit-scrollbar-thumb { background: rgba(102,126,234,0.35); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(102,126,234,0.55); }
 
+/* ── Sidebar PDF/URL row — vertically centre name + delete button ── */
+section[data-testid="stSidebar"] div[data-testid="column"] {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* ── Delete icon button: small, red-tinted, centred ── */
+section[data-testid="stSidebar"] div[data-testid="column"]:last-child .stButton > button {
+    padding: 2px 7px !important;
+    min-height: 26px !important;
+    height: 26px !important;
+    font-size: 0.82rem !important;
+    line-height: 1 !important;
+    background: rgba(239,68,68,0.09) !important;
+    border: 1px solid rgba(239,68,68,0.22) !important;
+    color: rgba(255,120,120,0.85) !important;
+    border-radius: 6px !important;
+    width: 100% !important;
+    justify-content: center !important;
+}
+section[data-testid="stSidebar"] div[data-testid="column"]:last-child .stButton > button:hover {
+    background: rgba(239,68,68,0.2) !important;
+    border-color: rgba(239,68,68,0.4) !important;
+    color: rgba(255,150,150,1) !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -430,7 +456,7 @@ _ps = "background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25)
 _badges = (
     '<span style="' + _ps + '">⚡ ' + selected_model + '</span>'
     + '<span style="' + _ps + '">🌡️ temp ' + str(temperature) + '</span>'
-    + ('<span style="' + _ps + '">📄 ' + selected_label + '</span>' if selected_label else '')
+    + ('<span style="' + _ps + '">' + selected_label + '</span>' if selected_label else '')
 )
 _hero = (
     '<div style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:16px;padding:28px 36px;margin-bottom:20px;box-shadow:0 8px 32px rgba(102,126,234,0.28);position:relative;">'
@@ -599,6 +625,7 @@ question = st.text_area(
     placeholder="e.g.  What are the key points covered in this document?",
     height=100,
     label_visibility="collapsed",
+    key="question_input",
 )
 
 col_ask, col_hint = st.columns([1, 4])
@@ -625,6 +652,7 @@ if ask_button and question.strip():
                 temperature=temperature,
             )
             st.session_state.chat_history.append({"question": question, "answer": answer})
+            st.session_state.question_input = ""
             st.rerun()
         except Exception as e:
             st.error(f"Error: {e}")
