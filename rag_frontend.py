@@ -348,9 +348,7 @@ with st.sidebar:
         "OpenRouter API Key", value=env_key, type="password",
         placeholder="sk-or-v1-...", help="Get a free key at openrouter.ai",
     )
-    if not api_key_input:
-        st.warning("Enter your OpenRouter API key to begin.")
-    else:
+    if api_key_input:
         st.success("API key ready ✓")
 
     st.markdown("---")
@@ -485,7 +483,38 @@ _hero = (
 )
 st.markdown(_hero, unsafe_allow_html=True)
 
-# ── Empty state ───────────────────────────────────────────────────────────────
+# ── Empty state: no API key ───────────────────────────────────────────────────
+if not api_key_input:
+    st.markdown(
+        '<div style="text-align:center;padding:60px 20px 12px;">'
+        '<div style="font-size:3.5rem;margin-bottom:14px;">🔑</div>'
+        '<div style="font-size:1.25rem;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:8px;">OpenRouter API key required</div>'
+        '<div style="font-size:0.9rem;color:rgba(255,255,255,0.38);max-width:420px;margin:0 auto;line-height:1.7;">'
+        'Open the <strong style="color:rgba(255,255,255,0.55);">Settings panel</strong> and paste your free OpenRouter API key to get started. '
+        'Get one at <strong style="color:rgba(255,255,255,0.55);">openrouter.ai</strong> — no credit card needed.'
+        '</div></div>',
+        unsafe_allow_html=True,
+    )
+    components.html("""
+<div style="text-align:center;padding:16px 0 0;font-family:Inter,sans-serif;">
+  <button
+    style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:10px;padding:10px 24px;cursor:pointer;font-size:0.9rem;font-weight:600;box-shadow:0 4px 14px rgba(102,126,234,0.4);letter-spacing:0.2px;transition:transform 0.15s,box-shadow 0.15s;"
+    onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 22px rgba(102,126,234,0.6)';"
+    onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 14px rgba(102,126,234,0.4)';"
+    onclick="
+      var pd=window.parent.document;
+      var btn=pd.querySelector('[data-testid=\\'collapsedControl\\'] button')
+             ||pd.querySelector('[data-testid=\\'stSidebarCollapseButton\\'] button')
+             ||pd.querySelector('button[aria-label=\\'Open sidebar\\']');
+      if(btn){btn.click();}
+    ">
+    ⚙️ &nbsp;Open Settings Panel
+  </button>
+</div>
+""", height=80, scrolling=False)
+    st.stop()
+
+# ── Empty state: no source ────────────────────────────────────────────────────
 if not selected_source:
     st.markdown(
         '<div style="text-align:center;padding:60px 20px 12px;">'
