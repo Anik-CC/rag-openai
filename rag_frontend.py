@@ -653,6 +653,9 @@ if st.session_state.chat_history:
     st.markdown("---")
 
 # ── Question input ─────────────────────────────────────────────────────────────
+if st.session_state.pop("_clear_question", False):
+    st.session_state.pop("question_input", None)
+
 question = st.text_area(
     "Ask a question",
     placeholder="e.g.  What are the key points covered in this document?",
@@ -687,10 +690,18 @@ elif ask_button and question.strip():
                 temperature=temperature,
             )
             st.session_state.chat_history.append({"question": question, "answer": answer})
-            st.session_state.question_input = ""
+            st.session_state._clear_question = True
             st.rerun()
         except Exception as e:
-            st.error(f"Error: {e}")
+            err_str = str(e)
+            if "401" in err_str or "User not found" in err_str or "No auth credentials" in err_str:
+                st.error(
+                    "**API key rejected (401)** — Your OpenRouter key is invalid or has been revoked. "
+                    "Go to [openrouter.ai/keys](https://openrouter.ai/keys) to generate a new one, "
+                    "then update `.env` and restart the app."
+                )
+            else:
+                st.error(f"Error: {e}")
 
 elif ask_button and not question.strip():
     st.warning("Please type a question first.")
