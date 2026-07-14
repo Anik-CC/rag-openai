@@ -1,6 +1,10 @@
 [server]
 headless = true
 enableCORS = false
+# Disable source hot-reload watcher. On a deploy we don't need it, and it
+# otherwise introspects every transformers submodule (incl. torchvision-only
+# vision models we don't use), flooding logs with ModuleNotFoundError tracebacks.
+fileWatcherType = "none"
 
 [browser]
 gatherUsageStats = false

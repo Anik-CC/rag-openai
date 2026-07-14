@@ -11,7 +11,12 @@ langchain-text-splitters==1.1.2
 langchain-core==1.4.0
 
 # Embeddings (runs locally — no API key needed)
-sentence-transformers>=2.2.0
+# Pin the ML stack to stable releases. Leaving transformers/torch unpinned let
+# the server resolve a bleeding-edge transformers whose vision models require
+# torchvision, spamming the logs with ModuleNotFoundError on import.
+sentence-transformers==3.3.1
+transformers==4.46.3
+torch==2.2.2
 
 # Vector store
 faiss-cpu==1.13.0
