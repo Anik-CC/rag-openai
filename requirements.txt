@@ -17,6 +17,9 @@ langchain-core==1.4.0
 sentence-transformers==3.3.1
 transformers==4.46.3
 torch==2.2.2
+# torch 2.2.2 is built against NumPy 1.x. With NumPy 2.x, tensor.numpy() fails
+# at runtime with "Numpy is not available", so pin NumPy to the 1.x line.
+numpy==1.26.4
 
 # Vector store
 faiss-cpu==1.13.0
